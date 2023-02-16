@@ -1,114 +1,130 @@
-# AArch64 multi-platform
-# RK3588 by happyme531 
+# RK356X Quartz64
+# Kernel Source Maintainer: Peter Geis
+# Contributor: Furkan Kardame <f.kardame@manjaro.org>
 
 pkgbase=linux-rk3588
-pkgver=5.10.110
-pkgrel=1
-_newversion=false
-_stopbuild=false     # Will also stop if ${_newversion} is true
-_srcname="kernel-d571a9d9d4acb670689d2beb23fdfb7b540d98e8"
-_kernelname="${pkgbase#linux}"
-_desc="AArch64 RockChip RK3588 vendor kernel"
+_commit=26bab1be400998807e9f83a088ff75134e42aa1a
+_srcname=linux-quartzpro64-${_commit}
+_kernelname=${pkgbase#linux}
+_desc="Kernel for Quartz64 (development version)"
+pkgver=6.1.0
+pkgrel=2
 arch=('aarch64')
-url="https://github.com/radxa/kernel"
+url="https://github.com/neg2led/linux-quartz64"
 license=('GPL2')
-makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'dtc' 'uboot-tools')
+makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git')
 options=('!strip')
-source=("https://github.com/radxa/kernel/archive/d571a9d9d4acb670689d2beb23fdfb7b540d98e8.zip"
-        '1001-allow-warnings.patch'
+source=("https://github.com/spikerguy/linux-quartzpro64/archive/${_commit}.tar.gz"
+        #'1001-arm64-dts-rockchip-add-dts-for-Orange-PI-5-rk3588s.patch'
+        '1008-net:-phy:-Add-driver-for-Motorcomm-yt8521-gigabit-ethernet-phy.patch'
+        '1009-net:-phy:-fix-yt8521-duplicated-argument-to-or.patch'
+        '1010-net:-phy:-add-Motorcomm-YT8531S-phy-id.patch'
+        '1002-net:phy-fix-the-spelling-problem-of-Sentinel.patch'
+        '1003-motorcomm:-change-the-phy-id-of-yt8521-and-yt8531s-to-lowercase.patch'
+        '1004-Add-BIT-macro-for-Motorcomm-yt8521-yt8531-gigabit-ethernet-phy.patch'
+        '1005-Add-dts-support-for-Motorcomm-yt8521-gigabit-ethernet-phy.patch'
+        '1006-Add-dts-support-for-Motorcomm-yt8531s-gigabit-ethernet-phy.patch'
+        '1007-Add-driver-for-Motorcomm-yt8531-gigabit-ethernet-phy.patch'
         'config'
         'linux.preset'
         '60-linux.hook'
         '90-linux.hook')
-md5sums=('1ab3d1cc1699364ca80abaf280207257'
-         'a75802659feafcf8b72efbac63e557a4'
-         '0d1bcab2351b92981c1e0d612e5845cc'
-         '86d4a35722b5410e3b29fc92dae15d4b'
+md5sums=('ea89ebb7ad2e8008eb2872f2143c76ff'
+         '31da53f23eafd26e88e05c0288997e99'
+         'b0d7208d2741e1b011506b3df03477fd'
+         'bfa314ac78289882a37098895350a12b'
+         '9c31604c50419d4243cdf983c9ca7e1f'
+         'c40473c06fe00c6c4a7ea698b75e460b'
+         'f977c2dd48305193b48273ec23e9722f'
+         '6463c6636a9672d70607932201837481'
+         'f662805ac1cc9a3151e49cbc3e4e0d05'
+         'e675d8a1987ee9c309b40081f0949920'
+         '7cc6228f112f9f3904e17c02538b994d'
+         'fbb7f2695efe0c83265cad1c5e6f0a81'
          'ce6c81ad1ad1f8b333fd6077d47abdaf'
          '3dc88030a8f2f5a5f97266d99b149f77')
 
 prepare() {
-  apply_patches() {
-      local PATCH
-      for PATCH in "${source[@]}"; do
-          PATCH="${PATCH%%::*}"
-          PATCH="${PATCH##*/}"
-          [[ ${PATCH} = $1*.patch ]] || continue
-          msg2 "Applying patch: ${PATCH}..."
-          patch -N -p1 < "../${PATCH}"
-      done
-  }
+    #sed -i s/'EXTRAVERSION = -rc7'/'EXTRAVERSION ='/ "${_srcname}"/Makefile
+    cd "${srcdir}/${_srcname}"
 
-  cd ${_srcname}
+    # Patches
+   # patch -Np1 -i "${srcdir}/0001-arm64-dts-rockchip-Add-HDMI-sound-node-to-Quartz64-B.patch"
+   # patch -Np1 -i "${srcdir}/0002-arm64-dts-rockchip-Add-HDMI-sound-node-to-SoQuartz-C.patch"
+   # patch -Np1 -i "${srcdir}/0003-arm64-dts-rockchip-Add-PCIe-2-nodes-to-quartz64-b.patch
+	#patch -Np1 -i "${srcdir}/1001-arm64-dts-rockchip-add-dts-for-Orange-PI-5-rk3588s.patch"
+	patch -Np1 -i "${srcdir}/1008-net:-phy:-Add-driver-for-Motorcomm-yt8521-gigabit-ethernet-phy.patch"
+	patch -Np1 -i "${srcdir}/1009-net:-phy:-fix-yt8521-duplicated-argument-to-or.patch"
+	patch -Np1 -i "${srcdir}/1010-net:-phy:-add-Motorcomm-YT8531S-phy-id.patch"
+	patch -Np1 -i "${srcdir}/1002-net:phy-fix-the-spelling-problem-of-Sentinel.patch"
+	patch -Np1 -i "${srcdir}/1003-motorcomm:-change-the-phy-id-of-yt8521-and-yt8531s-to-lowercase.patch"
+	patch -Np1 -i "${srcdir}/1004-Add-BIT-macro-for-Motorcomm-yt8521-yt8531-gigabit-ethernet-phy.patch"
+	patch -Np1 -i "${srcdir}/1005-Add-dts-support-for-Motorcomm-yt8521-gigabit-ethernet-phy.patch"
+	patch -Np1 -i "${srcdir}/1006-Add-dts-support-for-Motorcomm-yt8531s-gigabit-ethernet-phy.patch"
+	patch -Np1 -i "${srcdir}/1007-Add-driver-for-Motorcomm-yt8531-gigabit-ethernet-phy.patch"
 
-  apply_patches 1
+    cat "${srcdir}/config" > ./.config
 
-  # Apply our kernel configuration
-  cat "${srcdir}/config" > .config
+    # add pkgrel to extraversion
+    sed -ri "s|^(EXTRAVERSION =)(.*)|\1 \2-${pkgrel}|" Makefile
 
-  # Add pkgrel to extraversion
-  sed -ri "s|^(EXTRAVERSION =)(.*)|\1 \2-${pkgrel}|" Makefile
+    # don't run depmod on 'make install'. We'll do this ourselves in packaging
+    sed -i '2iexit 0' scripts/depmod.sh
+#    make oldconfig
+#	make menuconfig
+  # cp ./.config "${srcdir}/config"
 
-  # Don't run depmod on "make install", we'll do that ourselves in packaging
-  sed -i '2iexit 0' scripts/depmod.sh
 }
 
 build() {
-  cd ${_srcname}
+  cd "${srcdir}/${_srcname}"
 
-  # Get the kernel version
-  if [[ "${_newversion}" = false ]]; then
-    make prepare
-  fi
+  # get kernel version
+  make prepare
 
-  # Configure the kernel; adjust the line below to your choice
-  # or simply manually edit the ".config" file
-  if [[ "${_newversion}" = true ]]; then
-    make menuconfig   # CLI menu for configuration
-  fi
-  #make nconfig       # New CLI menu for configuration
-  #make xconfig       # X-based configuration
-  #make oldconfig     # Using old config from previous kernel version
+  # load configuration
+  # Configure the kernel. Replace the line below with one of your choice.
+  #make menuconfig # CLI menu for configuration
+  #make nconfig # new CLI menu for configuration
+  #make xconfig # X-based configuration
+  #make oldconfig # using old config from previous kernel version
+  # ... or manually edit .config
 
-  # Stash the configuration (use with new major kernel version)
-  if [[ "${_newversion}" = true ]]; then
-    cp ./.config /var/tmp/${pkgbase}.config
-  fi
+  # Copy back our configuration (use with new kernel version)
+  #cp ./.config /var/tmp/${pkgbase}.config
 
-  # Stop here, which is useful to configure the kernel
-  if [[ "${_newversion}" = true || "${_stopbuild}" = true ]]; then
-    msg "Stopping build"
-    return 1
-  fi
+  ####################
+  # stop here
+  # this is useful to configure the kernel
+  #msg "Stopping build"
+  #return 1
+  ####################
 
-  # Enable to create an all-inclusive build
   #yes "" | make config
 
-  # Build the kernel and the modules
+  # build!
   unset LDFLAGS
   make ${MAKEFLAGS} Image modules
-
-  # Generate device tree blobs with symbols to support
-  # applying device tree overlays in U-Boot
+  # Generate device tree blobs with symbols to support applying device tree overlays in U-Boot
   make ${MAKEFLAGS} DTC_FLAGS="-@" dtbs
 }
 
 _package() {
   pkgdesc="The Linux Kernel and modules - ${_desc}"
-  depends=('coreutils' 'kmod' 'initramfs')
+  depends=('coreutils' 'kmod' 'initramfs' 'fbset')
   optdepends=('crda: to set the correct wireless channels of your country'
-              'linux-firmware: additional firmware')
+              'linux-firmware: Additional firmware files for common hardware')
   provides=('kernel26' "linux=${pkgver}")
-  conflicts=('kernel26' 'linux')
-  replaces=('linux-armv8' 'linux-aarch64')
+  conflicts=('linux')
   backup=("etc/mkinitcpio.d/${pkgbase}.preset")
   install=${pkgname}.install
 
-  cd ${_srcname}
+  cd "${srcdir}/${_srcname}"
 
   KARCH=arm64
 
   # get kernel version
+  #_kernver="$pkgver-$pkgrel-MANJARO-ARM"
   _kernver="$(make kernelrelease)"
   _basekernel=${_kernver%%-*}
   _basekernel=${_basekernel%.*}
@@ -116,11 +132,11 @@ _package() {
   mkdir -p "${pkgdir}"/{boot,usr/lib/modules}
   make INSTALL_MOD_PATH="${pkgdir}/usr" modules_install
   make INSTALL_DTBS_PATH="${pkgdir}/boot/dtbs" dtbs_install
-  cp arch/$KARCH/boot/Image "${pkgdir}/boot"
+  cp arch/$KARCH/boot/Image "${pkgdir}/boot/"
 
-  # make room for external modules
+   # make room for external modules
   local _extramodules="extramodules-${_basekernel}${_kernelname}"
-  ln -s "../${_extramodules}" "${pkgdir}/usr/lib/modules/extramodules-5.10"
+  ln -s "../${_extramodules}" "${pkgdir}/usr/lib/modules/${_kernver}/extramodules"
 
   # add real version for building modules and running depmod from hook
   echo "${_kernver}" |
@@ -148,14 +164,13 @@ _package() {
     install -Dm644 /dev/stdin "${pkgdir}/usr/share/libalpm/hooks/60-${pkgbase}.hook"
   sed "${_subst}" ../90-linux.hook |
     install -Dm644 /dev/stdin "${pkgdir}/usr/share/libalpm/hooks/90-${pkgbase}.hook"
+
 }
 
 _package-headers() {
   pkgdesc="Header files and scripts for building modules for linux kernel - ${_desc}"
   provides=("linux-headers=${pkgver}")
   conflicts=('linux-headers')
-  replaces=('linux-aarch64-headers')
-
   cd ${_srcname}
   local _builddir="${pkgdir}/usr/lib/modules/${_kernver}/build"
 
@@ -167,12 +182,10 @@ _package-headers() {
   cp -t "${_builddir}" -a include scripts
 
   install -Dt "${_builddir}/arch/${KARCH}" -m644 arch/${KARCH}/Makefile
-  install -Dt "${_builddir}/arch/${KARCH}/kernel" -m644 arch/${KARCH}/kernel/asm-offsets.s
-  install -Dt "${_builddir}" -m644 vmlinux 
+  install -Dt "${_builddir}/arch/${KARCH}/kernel" -m644 arch/${KARCH}/kernel/asm-offsets.s 
+  #arch/$KARCH/kernel/module.lds
 
   cp -t "${_builddir}/arch/${KARCH}" -a arch/${KARCH}/include
-  mkdir -p "${_builddir}/arch/arm"
-  cp -t "${_builddir}/arch/arm" -a arch/arm/include
 
   install -Dt "${_builddir}/drivers/md" -m644 drivers/md/*.h
   install -Dt "${_builddir}/net/mac80211" -m644 net/mac80211/*.h
@@ -194,7 +207,7 @@ _package-headers() {
   # remove unneeded architectures
   local _arch
   for _arch in "${_builddir}"/arch/*/; do
-    [[ ${_arch} == */${KARCH}/ || ${_arch} == */arm/ ]] && continue
+    [[ ${_arch} == */${KARCH}/ ]] && continue
     rm -r "${_arch}"
   done
 
@@ -218,7 +231,7 @@ _package-headers() {
         strip $STRIP_SHARED "$file" ;;
     esac
   done < <(find "${_builddir}" -type f -perm -u+x ! -name vmlinux -print0 2>/dev/null)
-  strip $STRIP_STATIC "${_builddir}/vmlinux"
+  #strip $STRIP_STATIC "${_builddir}/vmlinux"
   
   # remove unwanted files
   find ${_builddir} -name '*.orig' -delete
@@ -230,3 +243,5 @@ for _p in ${pkgname[@]}; do
     _package${_p#${pkgbase}}
   }"
 done
+ 
+
