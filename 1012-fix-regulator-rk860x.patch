@@ -1,0 +1,41 @@
+From 58461615acc53084349d7360bba64afd9f0796c7 Mon Sep 17 00:00:00 2001
+From: shengfei Xu <xsf@rock-chips.com>
+Date: Tue, 16 Nov 2021 03:00:14 +0000
+Subject: [PATCH] regulator: rk860x: fix the chip id error
+
+Signed-off-by: shengfei Xu <xsf@rock-chips.com>
+Change-Id: I86d6c6f3fdd2f105561aa31a7590ef0723bcc88a
+---
+ drivers/regulator/rk860x-regulator.c           | 16 +++++++++++++++-
+ 3 files changed, 18 insertions(+), 25 deletions(-)
+diff --git a/drivers/regulator/rk860x-regulator.c b/drivers/regulator/rk860x-regulator.c
+index a622362ef9cd9..4596761bdb404 100644
+--- a/drivers/regulator/rk860x-regulator.c
++++ b/drivers/regulator/rk860x-regulator.c
+@@ -446,8 +446,22 @@ rk860x_parse_dt(struct device *dev, struct device_node *np,
+ 
+ static const struct of_device_id rk860x_dt_ids[] = {
+ 	{
+-		.compatible = "rockchip,rk860x",
++		.compatible = "rockchip,rk8600",
++		.data = (void *)RK860X_CHIP_ID_00
+ 	},
++	{
++		.compatible = "rockchip,rk8601",
++		.data = (void *)RK860X_CHIP_ID_01
++	},
++	{
++		.compatible = "rockchip,rk8602",
++		.data = (void *)RK860X_CHIP_ID_02
++	},
++	{
++		.compatible = "rockchip,rk8603",
++		.data = (void *)RK860X_CHIP_ID_03
++	},
++
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(of, rk860x_dt_ids);
+-- 
+GitLab
+

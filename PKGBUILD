@@ -1,14 +1,15 @@
 # RK356X Quartz64
 # Kernel Source Maintainer: Peter Geis
-# Contributor: Furkan Kardame <f.kardame@manjaro.org>
+# Maintainer: Dan Johansen <strit@manjaro.org>
+# Contributor: Spikerguy <shareahack@hotmail.com>
 
-pkgbase=linux-rk3588
+pkgbase=linux-rk35xx
 _commit=26bab1be400998807e9f83a088ff75134e42aa1a
 _srcname=linux-quartzpro64-${_commit}
 _kernelname=${pkgbase#linux}
 _desc="Kernel for Quartz64 (development version)"
 pkgver=6.1.0
-pkgrel=2
+pkgrel=4
 arch=('aarch64')
 url="https://github.com/neg2led/linux-quartz64"
 license=('GPL2')
@@ -16,16 +17,18 @@ makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git')
 options=('!strip')
 source=("https://github.com/spikerguy/linux-quartzpro64/archive/${_commit}.tar.gz"
         #'1001-arm64-dts-rockchip-add-dts-for-Orange-PI-5-rk3588s.patch'
-        '1008-net:-phy:-Add-driver-for-Motorcomm-yt8521-gigabit-ethernet-phy.patch'
-        '1009-net:-phy:-fix-yt8521-duplicated-argument-to-or.patch'
-        '1010-net:-phy:-add-Motorcomm-YT8531S-phy-id.patch'
-        '1002-net:phy-fix-the-spelling-problem-of-Sentinel.patch'
-        '1003-motorcomm:-change-the-phy-id-of-yt8521-and-yt8531s-to-lowercase.patch'
-        '1004-Add-BIT-macro-for-Motorcomm-yt8521-yt8531-gigabit-ethernet-phy.patch'
-        '1005-Add-dts-support-for-Motorcomm-yt8521-gigabit-ethernet-phy.patch'
-        '1006-Add-dts-support-for-Motorcomm-yt8531s-gigabit-ethernet-phy.patch'
-        '1007-Add-driver-for-Motorcomm-yt8531-gigabit-ethernet-phy.patch'
-        'config'
+	'1008-net:-phy:-Add-driver-for-Motorcomm-yt8521-gigabit-ethernet-phy.patch'
+	'1009-net:-phy:-fix-yt8521-duplicated-argument-to-or.patch'
+	'1010-net:-phy:-add-Motorcomm-YT8531S-phy-id.patch'
+	'1002-net:phy-fix-the-spelling-problem-of-Sentinel.patch'
+	'1003-motorcomm:-change-the-phy-id-of-yt8521-and-yt8531s-to-lowercase.patch'
+	'1004-Add-BIT-macro-for-Motorcomm-yt8521-yt8531-gigabit-ethernet-phy.patch'
+	'1005-Add-dts-support-for-Motorcomm-yt8521-gigabit-ethernet-phy.patch'
+	'1006-Add-dts-support-for-Motorcomm-yt8531s-gigabit-ethernet-phy.patch'
+	'1007-Add-driver-for-Motorcomm-yt8531-gigabit-ethernet-phy.patch'
+	'1011-add-regulator-rk860x.patch'
+	'1012-fix-regulator-rk860x.patch'
+	'config'
         'linux.preset'
         '60-linux.hook'
         '90-linux.hook')
@@ -39,6 +42,8 @@ md5sums=('ea89ebb7ad2e8008eb2872f2143c76ff'
          '6463c6636a9672d70607932201837481'
          'f662805ac1cc9a3151e49cbc3e4e0d05'
          'e675d8a1987ee9c309b40081f0949920'
+         '4a11c1a466d977b1a38baddafd962035'
+         'd03da09a0390e29d4bf38086d6a7dc1f'
          '7cc6228f112f9f3904e17c02538b994d'
          'fbb7f2695efe0c83265cad1c5e6f0a81'
          'ce6c81ad1ad1f8b333fd6077d47abdaf'
@@ -48,10 +53,10 @@ prepare() {
     #sed -i s/'EXTRAVERSION = -rc7'/'EXTRAVERSION ='/ "${_srcname}"/Makefile
     cd "${srcdir}/${_srcname}"
 
-    # Patches
-   # patch -Np1 -i "${srcdir}/0001-arm64-dts-rockchip-Add-HDMI-sound-node-to-Quartz64-B.patch"
-   # patch -Np1 -i "${srcdir}/0002-arm64-dts-rockchip-Add-HDMI-sound-node-to-SoQuartz-C.patch"
-   # patch -Np1 -i "${srcdir}/0003-arm64-dts-rockchip-Add-PCIe-2-nodes-to-quartz64-b.patch
+	# Patches
+	# patch -Np1 -i "${srcdir}/0001-arm64-dts-rockchip-Add-HDMI-sound-node-to-Quartz64-B.patch"
+	# patch -Np1 -i "${srcdir}/0002-arm64-dts-rockchip-Add-HDMI-sound-node-to-SoQuartz-C.patch"
+	# patch -Np1 -i "${srcdir}/0003-arm64-dts-rockchip-Add-PCIe-2-nodes-to-quartz64-b.patch
 	#patch -Np1 -i "${srcdir}/1001-arm64-dts-rockchip-add-dts-for-Orange-PI-5-rk3588s.patch"
 	patch -Np1 -i "${srcdir}/1008-net:-phy:-Add-driver-for-Motorcomm-yt8521-gigabit-ethernet-phy.patch"
 	patch -Np1 -i "${srcdir}/1009-net:-phy:-fix-yt8521-duplicated-argument-to-or.patch"
@@ -62,6 +67,8 @@ prepare() {
 	patch -Np1 -i "${srcdir}/1005-Add-dts-support-for-Motorcomm-yt8521-gigabit-ethernet-phy.patch"
 	patch -Np1 -i "${srcdir}/1006-Add-dts-support-for-Motorcomm-yt8531s-gigabit-ethernet-phy.patch"
 	patch -Np1 -i "${srcdir}/1007-Add-driver-for-Motorcomm-yt8531-gigabit-ethernet-phy.patch"
+	patch -Np1 -i "${srcdir}/1011-add-regulator-rk860x.patch"
+	patch -Np1 -i "${srcdir}/1012-fix-regulator-rk860x.patch"
 
     cat "${srcdir}/config" > ./.config
 
