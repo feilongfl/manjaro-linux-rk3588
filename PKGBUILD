@@ -3,7 +3,7 @@
 # Maintainer: Dan Johansen <strit@manjaro.org>
 # Contributor: Spikerguy <shareahack@hotmail.com>
 
-pkgbase=linux-rk35xx
+pkgbase=linux-rk3588
 _commit=26bab1be400998807e9f83a088ff75134e42aa1a
 _srcname=linux-quartzpro64-${_commit}
 _kernelname=${pkgbase#linux}
@@ -44,7 +44,7 @@ md5sums=('ea89ebb7ad2e8008eb2872f2143c76ff'
          'e675d8a1987ee9c309b40081f0949920'
          '4a11c1a466d977b1a38baddafd962035'
          'd03da09a0390e29d4bf38086d6a7dc1f'
-         '0d1bcab2351b92981c1e0d612e5845cc'
+         '15d15d5103f95e4ae493a11c3aee5b51'
          '86d4a35722b5410e3b29fc92dae15d4b'
          'ce6c81ad1ad1f8b333fd6077d47abdaf'
          '3dc88030a8f2f5a5f97266d99b149f77')
@@ -79,7 +79,7 @@ prepare() {
     sed -i '2iexit 0' scripts/depmod.sh
 #    make oldconfig
 #	make menuconfig
-  # cp ./.config "${srcdir}/config"
+ # 	cp ./.config "${srcdir}/config"
 
 }
 
