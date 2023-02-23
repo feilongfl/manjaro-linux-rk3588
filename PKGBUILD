@@ -44,8 +44,8 @@ md5sums=('ea89ebb7ad2e8008eb2872f2143c76ff'
          'e675d8a1987ee9c309b40081f0949920'
          '4a11c1a466d977b1a38baddafd962035'
          'd03da09a0390e29d4bf38086d6a7dc1f'
-         '7cc6228f112f9f3904e17c02538b994d'
-         'fbb7f2695efe0c83265cad1c5e6f0a81'
+         '0d1bcab2351b92981c1e0d612e5845cc'
+         '86d4a35722b5410e3b29fc92dae15d4b'
          'ce6c81ad1ad1f8b333fd6077d47abdaf'
          '3dc88030a8f2f5a5f97266d99b149f77')
 
