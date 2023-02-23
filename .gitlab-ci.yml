@@ -23,7 +23,7 @@ package:
   tags:
     - aarch64
     - bigbuilds
-    - spikeguy
+    - spikerguy
   script:
     # build pkg via chrootbuild
     - export PKG=${PWD##*/}
