@@ -9,7 +9,7 @@ _srcname=linux-quartzpro64-${_commit}
 _kernelname=${pkgbase#linux}
 _desc="Kernel for Quartz64 (development version)"
 pkgver=6.1.0
-pkgrel=4
+pkgrel=5
 arch=('aarch64')
 url="https://github.com/neg2led/linux-quartz64"
 license=('GPL2')
@@ -44,7 +44,7 @@ md5sums=('ea89ebb7ad2e8008eb2872f2143c76ff'
          'e675d8a1987ee9c309b40081f0949920'
          '4a11c1a466d977b1a38baddafd962035'
          'd03da09a0390e29d4bf38086d6a7dc1f'
-         '15d15d5103f95e4ae493a11c3aee5b51'
+         '295010b62ed49b013e119f1556f8ed94'
          '86d4a35722b5410e3b29fc92dae15d4b'
          'ce6c81ad1ad1f8b333fd6077d47abdaf'
          '3dc88030a8f2f5a5f97266d99b149f77')
