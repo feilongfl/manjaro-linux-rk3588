@@ -4,18 +4,19 @@
 
 pkgbase=linux-rk3588
 _commit=d92c954614b7bc31364a0e1e3b93f26d9b30b544
-_srcname=linux-quartzpro64-${_commit}
 _kernelname=${pkgbase#linux}
 _desc="Kernel for Quartz64 (development version)"
-pkgver=6.1.0
-pkgrel=10
+pkgver=6.1.20
+pkgrel=1
+_srcname="linux-${pkgver/%.0/}"
 arch=('aarch64')
 url="https://github.com/neg2led/linux-quartz64"
 license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git')
 options=('!strip')
-source=("https://github.com/spikerguy/linux-quartzpro64/archive/${_commit}.tar.gz"
-        '1008-net:-phy:-Add-driver-for-Motorcomm-yt8521-gigabit-ethernet-phy.patch'
+source=("http://www.kernel.org/pub/linux/kernel/v6.x/${_srcname}.tar.xz"
+        '1001-add-rk3588.patch'
+	'1008-net:-phy:-Add-driver-for-Motorcomm-yt8521-gigabit-ethernet-phy.patch'
         '1009-net:-phy:-fix-yt8521-duplicated-argument-to-or.patch'
         '1010-net:-phy:-add-Motorcomm-YT8531S-phy-id.patch'
         '1002-net:phy-fix-the-spelling-problem-of-Sentinel.patch'
@@ -30,7 +31,8 @@ source=("https://github.com/spikerguy/linux-quartzpro64/archive/${_commit}.tar.g
         'linux.preset'
         '60-linux.hook'
         '90-linux.hook')
-md5sums=('d6c341e13a3bdc76957435f11fcc120f'
+md5sums=('288b961ca3226154102ed9d3eaab2844'
+         '58eab213b222883f98157d3e26803157'
          '31da53f23eafd26e88e05c0288997e99'
          'b0d7208d2741e1b011506b3df03477fd'
          'bfa314ac78289882a37098895350a12b'
@@ -56,6 +58,7 @@ prepare() {
    # patch -Np1 -i "${srcdir}/0002-arm64-dts-rockchip-Add-HDMI-sound-node-to-SoQuartz-C.patch"
    # patch -Np1 -i "${srcdir}/0003-arm64-dts-rockchip-Add-PCIe-2-nodes-to-quartz64-b.patch
 	#patch -Np1 -i "${srcdir}/1001-arm64-dts-rockchip-add-dts-for-Orange-PI-5-rk3588s.patch"
+	patch -Np1 -i "${srcdir}/1001-add-rk3588.patch"
 	patch -Np1 -i "${srcdir}/1008-net:-phy:-Add-driver-for-Motorcomm-yt8521-gigabit-ethernet-phy.patch"
 	patch -Np1 -i "${srcdir}/1009-net:-phy:-fix-yt8521-duplicated-argument-to-or.patch"
 	patch -Np1 -i "${srcdir}/1010-net:-phy:-add-Motorcomm-YT8531S-phy-id.patch"
