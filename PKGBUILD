@@ -9,7 +9,7 @@ _commit=26bab1be400998807e9f83a088ff75134e42aa1a
 _kernelname=${pkgbase#linux}
 _desc="Kernel for Quartz64 (development version)"
 pkgver=6.2.3
-pkgrel=2
+pkgrel=3
 _srcname="linux-${pkgver/%.0/}"
 arch=('aarch64')
 url="https://github.com/neg2led/linux-quartz64"
@@ -132,7 +132,7 @@ md5sums=('c6f5873837275e6ba35736bbe2370cbe'
          '6463c6636a9672d70607932201837481'
          'f662805ac1cc9a3151e49cbc3e4e0d05'
          'e675d8a1987ee9c309b40081f0949920'
-         '03746024db61b918d3d460bd25a7d8de'
+         'a4408d148a6a9196b7d2a064daed9eac'
          '86d4a35722b5410e3b29fc92dae15d4b'
          'ce6c81ad1ad1f8b333fd6077d47abdaf'
          '3dc88030a8f2f5a5f97266d99b149f77')
