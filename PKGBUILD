@@ -7,7 +7,7 @@ _commit=d92c954614b7bc31364a0e1e3b93f26d9b30b544
 _kernelname=${pkgbase#linux}
 _desc="Kernel for Quartz64 (development version)"
 pkgver=6.1.20
-pkgrel=2
+pkgrel=3
 _srcname="linux-${pkgver/%.0/}"
 arch=('aarch64')
 url="https://github.com/neg2led/linux-quartz64"
@@ -27,6 +27,7 @@ source=("http://www.kernel.org/pub/linux/kernel/v6.x/${_srcname}.tar.xz"
         '1007-Add-driver-for-Motorcomm-yt8531-gigabit-ethernet-phy.patch'
         '1011-add-regulator-rk860x.patch'
 	'1012-fix-regulator-rk860x.patch'
+	'1013-add-arm64-rk3588s-roc-pc.patch'
 	'config'
         'linux.preset'
         '60-linux.hook'
@@ -44,7 +45,8 @@ md5sums=('288b961ca3226154102ed9d3eaab2844'
          'e675d8a1987ee9c309b40081f0949920'
          '4a11c1a466d977b1a38baddafd962035'
          'd03da09a0390e29d4bf38086d6a7dc1f'
-         '7d2953c74c2a259e3b7f6dba274e24b5'
+         '4be87411dbd8cd9b9821acb791e8c09d'
+         '95d3d39925143e6c5f417a355f15a6f4'
          'fbb7f2695efe0c83265cad1c5e6f0a81'
          'ce6c81ad1ad1f8b333fd6077d47abdaf'
          '3dc88030a8f2f5a5f97266d99b149f77')
@@ -70,7 +72,7 @@ prepare() {
 	patch -Np1 -i "${srcdir}/1007-Add-driver-for-Motorcomm-yt8531-gigabit-ethernet-phy.patch"
 	patch -Np1 -i "${srcdir}/1011-add-regulator-rk860x.patch"
 	patch -Np1 -i "${srcdir}/1012-fix-regulator-rk860x.patch"
-    
+    	patch -Np1 -i "${srcdir}/1013-add-arm64-rk3588s-roc-pc.patch"
     cat "${srcdir}/config" > ./.config
 
     # add pkgrel to extraversion
