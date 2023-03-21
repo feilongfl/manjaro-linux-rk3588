@@ -7,7 +7,7 @@ _commit=d92c954614b7bc31364a0e1e3b93f26d9b30b544
 _kernelname=${pkgbase#linux}
 _desc="Kernel for Quartz64 (development version)"
 pkgver=6.1.20
-pkgrel=3
+pkgrel=5
 _srcname="linux-${pkgver/%.0/}"
 arch=('aarch64')
 url="https://github.com/neg2led/linux-quartz64"
@@ -28,6 +28,11 @@ source=("http://www.kernel.org/pub/linux/kernel/v6.x/${_srcname}.tar.xz"
         '1011-add-regulator-rk860x.patch'
 	'1012-fix-regulator-rk860x.patch'
 	'1013-add-arm64-rk3588s-roc-pc.patch'
+	'1014-add-usb-opi5.patch'
+	'1015-add-m3-usb.patch'
+	'1050-rockchip-add-SoC-headers-from-downstream-kernel.patch'
+	'1051-phy-rockchip-inno-usb2-update-from-downstream-kernel.patch'
+	'1052-arm64-dts-rockchip-rk3588-enable-usb2.patch'
 	'config'
         'linux.preset'
         '60-linux.hook'
@@ -46,6 +51,11 @@ md5sums=('288b961ca3226154102ed9d3eaab2844'
          '4a11c1a466d977b1a38baddafd962035'
          'd03da09a0390e29d4bf38086d6a7dc1f'
          '4be87411dbd8cd9b9821acb791e8c09d'
+         '68a346e3615e9c3ec6367ccd8d8daa3f'
+         '7af54c2e95acbb9dc45230c4e87831c7'
+         'fd2983a88af94b2ee2e049da60f88832'
+         'f6d50955e9b4cab6208b9df89310720c'
+         '2d795ceb3281136a3040528f77b2966a'
          '95d3d39925143e6c5f417a355f15a6f4'
          'fbb7f2695efe0c83265cad1c5e6f0a81'
          'ce6c81ad1ad1f8b333fd6077d47abdaf'
@@ -73,6 +83,12 @@ prepare() {
 	patch -Np1 -i "${srcdir}/1011-add-regulator-rk860x.patch"
 	patch -Np1 -i "${srcdir}/1012-fix-regulator-rk860x.patch"
     	patch -Np1 -i "${srcdir}/1013-add-arm64-rk3588s-roc-pc.patch"
+	patch -Np1 -i "${srcdir}/1014-add-usb-opi5.patch"
+	patch -Np1 -i "${srcdir}/1015-add-m3-usb.patch"
+	patch -Np1 -i "${srcdir}/1050-rockchip-add-SoC-headers-from-downstream-kernel.patch"
+	patch -Np1 -i "${srcdir}/1051-phy-rockchip-inno-usb2-update-from-downstream-kernel.patch"
+	patch -Np1 -i "${srcdir}/1052-arm64-dts-rockchip-rk3588-enable-usb2.patch"
+
     cat "${srcdir}/config" > ./.config
 
     # add pkgrel to extraversion
