@@ -7,7 +7,7 @@ _commit=d92c954614b7bc31364a0e1e3b93f26d9b30b544
 _kernelname=${pkgbase#linux}
 _desc="Kernel for Quartz64 (development version)"
 pkgver=6.1.30
-pkgrel=1
+pkgrel=2
 _srcname="linux-${pkgver/%.0/}"
 arch=('aarch64')
 url="https://github.com/neg2led/linux-quartz64"
@@ -30,6 +30,7 @@ source=("http://www.kernel.org/pub/linux/kernel/v6.x/${_srcname}.tar.xz"
 	'1013-add-arm64-rk3588s-roc-pc.patch'
 	'1014-add-usb-opi5.patch'
 	'1015-add-m3-usb.patch'
+	'1016-arm64-dts-rockchip-add-dts-for-Firefly-itx-rk3588j.patch'
 	'1050-rockchip-add-SoC-headers-from-downstream-kernel.patch'
 	'1051-phy-rockchip-inno-usb2-update-from-downstream-kernel.patch'
 	'1052-arm64-dts-rockchip-rk3588-enable-usb2.patch'
@@ -53,6 +54,7 @@ md5sums=('97b6354bda719b1a9d140f3887e21a5f'
          '4be87411dbd8cd9b9821acb791e8c09d'
          '68a346e3615e9c3ec6367ccd8d8daa3f'
          '7af54c2e95acbb9dc45230c4e87831c7'
+         '0ccab1b29c09d0759142b772911bdf7e'
          'fd2983a88af94b2ee2e049da60f88832'
          'f6d50955e9b4cab6208b9df89310720c'
          '2d795ceb3281136a3040528f77b2966a'
