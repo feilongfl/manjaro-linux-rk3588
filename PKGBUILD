@@ -6,8 +6,8 @@ pkgbase=linux-rk3588
 _commit=d92c954614b7bc31364a0e1e3b93f26d9b30b544
 _kernelname=${pkgbase#linux}
 _desc="Kernel for Quartz64 (development version)"
-pkgver=6.1.20
-pkgrel=5
+pkgver=6.1.30
+pkgrel=1
 _srcname="linux-${pkgver/%.0/}"
 arch=('aarch64')
 url="https://github.com/neg2led/linux-quartz64"
@@ -37,7 +37,7 @@ source=("http://www.kernel.org/pub/linux/kernel/v6.x/${_srcname}.tar.xz"
         'linux.preset'
         '60-linux.hook'
         '90-linux.hook')
-md5sums=('288b961ca3226154102ed9d3eaab2844'
+md5sums=('97b6354bda719b1a9d140f3887e21a5f'
          '58eab213b222883f98157d3e26803157'
          '31da53f23eafd26e88e05c0288997e99'
          'b0d7208d2741e1b011506b3df03477fd'
@@ -63,31 +63,30 @@ md5sums=('288b961ca3226154102ed9d3eaab2844'
 
 prepare() {
     #sed -i s/'EXTRAVERSION = -rc7'/'EXTRAVERSION ='/ "${_srcname}"/Makefile
-    cd "${srcdir}/${_srcname}"
+apply_patches() {
+      local PATCH
+      for PATCH in "${source[@]}"; do
+          PATCH="${PATCH%%::*}"
+          PATCH="${PATCH##*/}"
+          [[ ${PATCH} = $1*.patch ]] || continue
+          msg2 "Applying patch: ${PATCH}..."
+          patch -N -p1 < "../${PATCH}"
+      done
+  }
 
-    # Patches
-   # patch -Np1 -i "${srcdir}/0001-arm64-dts-rockchip-Add-HDMI-sound-node-to-Quartz64-B.patch"
-   # patch -Np1 -i "${srcdir}/0002-arm64-dts-rockchip-Add-HDMI-sound-node-to-SoQuartz-C.patch"
-   # patch -Np1 -i "${srcdir}/0003-arm64-dts-rockchip-Add-PCIe-2-nodes-to-quartz64-b.patch
-	#patch -Np1 -i "${srcdir}/1001-arm64-dts-rockchip-add-dts-for-Orange-PI-5-rk3588s.patch"
-	patch -Np1 -i "${srcdir}/1001-add-rk3588.patch"
-	patch -Np1 -i "${srcdir}/1008-net:-phy:-Add-driver-for-Motorcomm-yt8521-gigabit-ethernet-phy.patch"
-	patch -Np1 -i "${srcdir}/1009-net:-phy:-fix-yt8521-duplicated-argument-to-or.patch"
-	patch -Np1 -i "${srcdir}/1010-net:-phy:-add-Motorcomm-YT8531S-phy-id.patch"
-	patch -Np1 -i "${srcdir}/1002-net:phy-fix-the-spelling-problem-of-Sentinel.patch"
-	patch -Np1 -i "${srcdir}/1003-motorcomm:-change-the-phy-id-of-yt8521-and-yt8531s-to-lowercase.patch"
-	patch -Np1 -i "${srcdir}/1004-Add-BIT-macro-for-Motorcomm-yt8521-yt8531-gigabit-ethernet-phy.patch"
-	patch -Np1 -i "${srcdir}/1005-Add-dts-support-for-Motorcomm-yt8521-gigabit-ethernet-phy.patch"
-	patch -Np1 -i "${srcdir}/1006-Add-dts-support-for-Motorcomm-yt8531s-gigabit-ethernet-phy.patch"
-	patch -Np1 -i "${srcdir}/1007-Add-driver-for-Motorcomm-yt8531-gigabit-ethernet-phy.patch"
-	patch -Np1 -i "${srcdir}/1011-add-regulator-rk860x.patch"
-	patch -Np1 -i "${srcdir}/1012-fix-regulator-rk860x.patch"
-    	patch -Np1 -i "${srcdir}/1013-add-arm64-rk3588s-roc-pc.patch"
-	patch -Np1 -i "${srcdir}/1014-add-usb-opi5.patch"
-	patch -Np1 -i "${srcdir}/1015-add-m3-usb.patch"
-	patch -Np1 -i "${srcdir}/1050-rockchip-add-SoC-headers-from-downstream-kernel.patch"
-	patch -Np1 -i "${srcdir}/1051-phy-rockchip-inno-usb2-update-from-downstream-kernel.patch"
-	patch -Np1 -i "${srcdir}/1052-arm64-dts-rockchip-rk3588-enable-usb2.patch"
+  cd ${_srcname}
+
+  # Assorted Manjaro ARM patches
+  apply_patches 1
+
+  # Assorted
+  apply_patches 2
+  
+  # Assorted 
+  apply_patches 3
+
+  # Testing Patches
+  apply_patches 4
 
     cat "${srcdir}/config" > ./.config
 
