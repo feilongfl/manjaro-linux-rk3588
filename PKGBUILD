@@ -6,8 +6,8 @@ pkgbase=linux-rk3588
 _commit=d92c954614b7bc31364a0e1e3b93f26d9b30b544
 _kernelname=${pkgbase#linux}
 _desc="Kernel for Quartz64 (development version)"
-pkgver=6.1.30
-pkgrel=2
+pkgver=6.1.31
+pkgrel=1
 _srcname="linux-${pkgver/%.0/}"
 arch=('aarch64')
 url="https://github.com/neg2led/linux-quartz64"
@@ -38,7 +38,7 @@ source=("http://www.kernel.org/pub/linux/kernel/v6.x/${_srcname}.tar.xz"
         'linux.preset'
         '60-linux.hook'
         '90-linux.hook')
-md5sums=('97b6354bda719b1a9d140f3887e21a5f'
+md5sums=('72ac33b766704899f0a0d4d5e5fb02a9'
          '58eab213b222883f98157d3e26803157'
          '31da53f23eafd26e88e05c0288997e99'
          'b0d7208d2741e1b011506b3df03477fd'
